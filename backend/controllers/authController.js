@@ -15,7 +15,7 @@ export const registerUser = async (req, res) => {
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
 
-    res.json({ msg: "User registered successfully" });
+    res.json({ msg: "User registered successfully", user: newUser });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -24,9 +24,11 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    //try to find a user from db
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: "Invalid credentials" });
 
+    // if the user is found, check if user password is correct
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
 
