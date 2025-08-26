@@ -1,41 +1,13 @@
 import { Link } from "react-router-dom";
 import { useUser } from "../context/userContext";
+import Header from "../components/Header";
 
 export default function LandingPage() {
-  const { user, logout } = useUser();
+  const { user } = useUser();
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      {/* Navbar */}
-      <header className="flex justify-between items-center px-8 py-6 shadow-md bg-white">
-        <h1 className="text-2xl font-bold text-blue-600">TaskManager</h1>
-        <nav className="space-x-6">
-          <Link to="/features" className="text-gray-700 hover:text-blue-600">
-            Features
-          </Link>
-          <Link to="/about" className="text-gray-700 hover:text-blue-600">
-            About
-          </Link>
-          {user ? (
-            <>
-              <span className="font-medium">Hello, {user.username}</span>
-              <button
-                onClick={logout}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <Link
-              to="/login"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              Login
-            </Link>
-          )}
-        </nav>
-      </header>
-
+      {/* {Nav bar} */}
+      <Header />
       {/* Hero Section */}
       <main className="flex flex-col items-center justify-center text-center flex-1 px-6">
         <h2 className="text-5xl font-extrabold text-gray-800 leading-tight">

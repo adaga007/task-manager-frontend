@@ -4,7 +4,6 @@ import { UserContext } from "./userContext";
 
 export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
-
   // Load user from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
