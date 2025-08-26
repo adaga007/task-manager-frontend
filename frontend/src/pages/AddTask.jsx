@@ -1,39 +1,27 @@
-import { useState, useEffect } from "react";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function UpdateTask() {
-  const location = useLocation();
   const navigate = useNavigate();
-  const { id } = useParams(); // task ID from URL
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     status: "Pending",
   });
-  const task = location.state;
-  // Pre-fill form with task data when page loads
-  useEffect(() => {
-    if (task) {
-      setFormData({
-        title: task.title,
-        description: task.description,
-        status: task.status,
-      });
-    }
-  }, [task]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const addTask = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
 
-    await axios.put(`http://localhost:5000/api/tasks/${id}`, formData, {
+    const token = localStorage.getItem("token");
+    const info = await axios.post("http://localhost:5000/api/tasks", formData, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    alert(info.status);
 
     navigate("/tasks"); // redirect back to dashboard
   };
@@ -42,9 +30,9 @@ export default function UpdateTask() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-lg bg-white shadow-lg rounded-2xl p-8">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Update Task
+          Add Task
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={addTask} className="space-y-5">
           {/* Title */}
           <div>
             <label className="block text-gray-600 font-medium">Title</label>
@@ -94,7 +82,7 @@ export default function UpdateTask() {
             type="submit"
             className="w-full py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition duration-200"
           >
-            Update Task
+            Add Task
           </button>
         </form>
       </div>
