@@ -1,29 +1,23 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+// import { useNavigate } from "react-router-dom";
+import { useTask } from "../context/taskContext";
+import LoadingButton from "../components/LoadingButton";
 
 export default function UpdateTask() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    status: "Pending",
+    status: "pending",
   });
-
+  const { addTask, isTaskLoading } = useTask();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const addTask = async (e) => {
+  const handleTask = async (e) => {
     e.preventDefault();
-
-    const token = localStorage.getItem("token");
-    const info = await axios.post("http://localhost:5000/api/tasks", formData, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    alert(info.status);
-
-    navigate("/tasks"); // redirect back to dashboard
+    addTask(formData);
   };
 
   return (
@@ -32,7 +26,7 @@ export default function UpdateTask() {
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Add Task
         </h2>
-        <form onSubmit={addTask} className="space-y-5">
+        <form onSubmit={handleTask} className="space-y-5">
           {/* Title */}
           <div>
             <label className="block text-gray-600 font-medium">Title</label>
@@ -78,12 +72,15 @@ export default function UpdateTask() {
           </div>
 
           {/* Submit Button */}
-          <button
+          {/* <button
             type="submit"
             className="w-full py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition duration-200"
           >
             Add Task
-          </button>
+          </button> */}
+          <LoadingButton isTaskLoading={isTaskLoading} type="submit">
+            {isTaskLoading ? "Adding..." : "Add Task"}
+          </LoadingButton>
         </form>
       </div>
     </div>

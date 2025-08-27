@@ -1,30 +1,20 @@
-import { useEffect, useState } from "react";
 import Header from "../components/Header";
-import axios from "axios";
-// import UpdateTask from "./UpdateTask";
 import { useNavigate } from "react-router-dom";
+import { useTask } from "../context/taskContext";
 
 export default function Dashboard() {
-  const [tasks, setTasks] = useState([]);
-  // const [selectedTask, setSelectedTask] = useState(null);
+  const { tasks, setTaskUpdate, deleteTask } = useTask();
   const navigate = useNavigate();
 
-  const fetchTasks = async () => {
-    const token = localStorage.getItem("token");
-    const res = await axios.get("http://localhost:5000/api/tasks", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setTasks(res.data);
-  };
-
-  // ✅ Fetch tasks from backend
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
   const handleUpdateClick = (task) => {
-    navigate(`/tasks/${task._id}/edit`, { state: task });
+    // navigate(`/tasks/${task._id}/edit`, { state: task });
+    setTaskUpdate(task);
+    navigate(`/tasks/${task._id}/edit`);
   };
+  const handleDeleteClick = (id) => {
+    deleteTask(id);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Header />
@@ -61,7 +51,10 @@ export default function Dashboard() {
                 >
                   Edit
                 </button>
-                <button className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                <button
+                  onClick={() => handleDeleteClick(task._id)}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                >
                   Delete
                 </button>
               </div>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useUser } from "../context/UserContext"; // adjust path if different
+import { useUser } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {

@@ -1,27 +1,20 @@
 import { useState } from "react";
 import { useUser } from "../context/userContext";
-import axios from "axios";
+import LoadingButton from "../components/LoadingButton";
 
 export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const { login } = useUser();
+  const { login, isLoading } = useUser();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios.post(
-      "http://localhost:5000/api/auth/login",
-      formData
-    );
-    localStorage.setItem("token", res.data.token);
-    login(res.data.user);
-    alert("Login successful!");
-    window.location.href = "/tasks";
+    login(formData);
   };
 
   return (
@@ -60,12 +53,15 @@ export default function Login() {
           </div>
 
           {/* Submit Button */}
-          <button
+          {/* <button
             type="submit"
             className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition duration-200"
           >
             Login
-          </button>
+          </button> */}
+          <LoadingButton isLoading={isLoading} type="submit">
+            {isLoading ? "Login in..." : "Login"}
+          </LoadingButton>
         </form>
 
         {/* Register Link */}

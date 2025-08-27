@@ -1,27 +1,28 @@
 import { useState, useEffect } from "react";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useTask } from "../context/taskContext";
+import LoadingButton from "../components/LoadingButton";
+import { useParams } from "react-router-dom";
 
 export default function UpdateTask() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { id } = useParams(); // task ID from URL
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    status: "Pending",
+    status: "pending",
   });
-  const task = location.state;
+  const { id } = useParams(); // task ID from URL
+  const { taskUpdate, updateTask, isTaskLoading } = useTask();
+
+  // const task = location.state;
   // Pre-fill form with task data when page loads
   useEffect(() => {
-    if (task) {
+    if (taskUpdate) {
       setFormData({
-        title: task.title,
-        description: task.description,
-        status: task.status,
+        title: taskUpdate.title,
+        description: taskUpdate.description,
+        status: taskUpdate.status,
       });
     }
-  }, [task]);
+  }, [taskUpdate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,13 +30,7 @@ export default function UpdateTask() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
-
-    await axios.put(`http://localhost:5000/api/tasks/${id}`, formData, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    navigate("/tasks"); // redirect back to dashboard
+    updateTask(id, formData);
   };
 
   return (
@@ -90,12 +85,15 @@ export default function UpdateTask() {
           </div>
 
           {/* Submit Button */}
-          <button
+          {/* <button
             type="submit"
             className="w-full py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition duration-200"
           >
             Update Task
-          </button>
+          </button> */}
+          <LoadingButton isLoading={isTaskLoading} type="submit">
+            {isTaskLoading ? "Updating..." : "Update Task"}
+          </LoadingButton>
         </form>
       </div>
     </div>
