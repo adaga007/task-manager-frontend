@@ -12,7 +12,9 @@ export const TaskProvider = ({ children }) => {
     const res = await axios.get("http://localhost:5000/api/tasks", {
       headers: { Authorization: `Bearer ${token}` },
     });
+    setIsTaskLoading(true);
     setTasks(res.data);
+    setIsTaskLoading(false);
   };
 
   // ✅ Automatically load tasks when TaskProvider mounts
