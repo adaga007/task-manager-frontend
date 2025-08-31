@@ -20,10 +20,7 @@ export default function UserProvider({ children }) {
   const login = async (formData) => {
     setIsLoading(true);
     try {
-      const res = await axios.post(
-        "https://task-manager-backend-3mau.onrender.com/api/auth/login",
-        formData
-      );
+      const res = await axios.post("/api/auth/login", formData);
       localStorage.setItem("token", res.data.token);
       setUser(res.data.user);
       localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -38,10 +35,7 @@ export default function UserProvider({ children }) {
   const register = async (formData) => {
     setIsLoading(true);
     try {
-      const res = await axios.post(
-        "https://task-manager-backend-3mau.onrender.com/api/auth/register",
-        formData
-      );
+      const res = await axios.post("/api/auth/register", formData);
       localStorage.setItem("token", res.data.token);
       setUser(res.data.user);
       localStorage.setItem("user", JSON.stringify(res.data.user));
