@@ -21,7 +21,7 @@ export default function UserProvider({ children }) {
     setIsLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://task-manager-backend-3mau.onrender.com/api/auth/login",
         formData
       );
       localStorage.setItem("token", res.data.token);
@@ -39,7 +39,7 @@ export default function UserProvider({ children }) {
     setIsLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://task-manager-backend-3mau.onrender.com/api/auth/register",
         formData
       );
       localStorage.setItem("token", res.data.token);

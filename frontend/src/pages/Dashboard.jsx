@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import { useTask } from "../context/taskContext";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const { tasks, setTaskUpdate, deleteTask, isTaskLoading } = useTask();
@@ -33,40 +34,48 @@ export default function Dashboard() {
       ) : (
         <div className="p-6 bg-gray-100 min-h-screen">
           <h1 className="text-3xl font-bold mb-6">My Tasks</h1>
-          <a href="/add" className="text-blue-500 hover:underline">
-            Add Task
-          </a>
+          <div>
+            <Link
+              to="/add"
+              className="px-4 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              Add Task
+            </Link>
+          </div>
           {/* Task List   */}
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-2">
             {tasks.map((task) => (
               <div key={task._id} className="bg-white shadow-md rounded-lg p-4">
-                <h2 className="text-xl font-semibold">{task.title}</h2>
-                <p className="text-gray-600">{task.description}</p>
-                <p className="mt-2">
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm ${
-                      task.status === "Completed"
-                        ? "bg-green-200 text-green-700"
-                        : task.status === "pending"
-                        ? "bg-yellow-200 text-yellow-700"
-                        : "bg-red-200 text-red-700"
-                    }`}
-                  >
-                    {task.status}
-                  </span>
-                </p>
+                <div className="flex justify-between ">
+                  <h2 className="text-xl font-semibold">{task.title}</h2>
+                  <p className="mt-2">
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm ${
+                        task.status === "completed"
+                          ? "bg-green-200 text-green-700"
+                          : task.status === "pending"
+                          ? "bg-yellow-200 text-yellow-700"
+                          : "bg-red-200 text-red-700"
+                      }`}
+                    >
+                      {task.status}
+                    </span>
+                  </p>
+                </div>
+
+                <p className="text-gray-600 mt-2">{task.description}</p>
 
                 <div className="mt-4 flex gap-2">
                   <button
                     // onClick={() => setSelectedTask(task)}
                     onClick={() => handleUpdateClick(task)}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                    className="px-4 bg-blue-500 text-sm text-white rounded-lg hover:bg-blue-600"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDeleteClick(task._id)}
-                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                    className="px-4  bg-red-500 text-sm text-white rounded-lg hover:bg-red-600"
                   >
                     Delete
                   </button>

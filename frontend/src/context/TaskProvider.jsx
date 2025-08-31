@@ -9,9 +9,12 @@ export const TaskProvider = ({ children }) => {
 
   const fetchTasks = async () => {
     const token = localStorage.getItem("token");
-    const res = await axios.get("http://localhost:5000/api/tasks", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await axios.get(
+      "https://task-manager-backend-3mau.onrender.com/api/tasks",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     setIsTaskLoading(true);
     setTasks(res.data);
     setIsTaskLoading(false);
@@ -25,9 +28,13 @@ export const TaskProvider = ({ children }) => {
     setIsTaskLoading(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5000/api/tasks", taskData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.post(
+        "https://task-manager-backend-3mau.onrender.com/api/tasks",
+        taskData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       window.location.href = "/tasks";
     } catch (err) {
       console.error(err);
@@ -40,9 +47,13 @@ export const TaskProvider = ({ children }) => {
     setIsTaskLoading(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.put(`http://localhost:5000/api/tasks/${id}`, taskData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.put(
+        `https://task-manager-backend-3mau.onrender.com/api/tasks/${id}`,
+        taskData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       window.location.href = "/tasks";
     } catch (err) {
@@ -57,9 +68,12 @@ export const TaskProvider = ({ children }) => {
     setIsTaskLoading(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/tasks/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `https://task-manager-backend-3mau.onrender.com/api/tasks/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       fetchTasks();
       // setTasks((prev) => prev.filter((task) => task._id !== id)); // remove locally
     } catch (err) {
