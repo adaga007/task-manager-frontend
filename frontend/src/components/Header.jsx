@@ -16,7 +16,6 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 flex justify-between items-center px-6 py-4 shadow-md bg-white">
       {/* Logo */}
-      {/* <h1 className="text-2xl font-bold text-blue-600">TaskManager</h1> */}
       <Link to="/" className="text-2xl font-bold text-blue-600">
         TaskManager
       </Link>
